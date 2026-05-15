@@ -5,6 +5,13 @@
 **Status**: Draft  
 **Input**: User description: "fix npm vulnerabilities"
 
+## Clarifications
+
+### Session 2026-05-15
+- Q: Should this feature include setting up a recurring vulnerability scan (e.g., in CI/CD) or remain a one-time resolution? → A: One-time Fix: Resolve current vulnerabilities manually and verify with a single report.
+- Q: How should vulnerabilities be resolved? Should the process prioritize automatic tools (like npm audit fix) or manual version overrides? → A: Full Agent Resolution: The agent will use automatic tools and manual overrides as needed to resolve all identified vulnerabilities.
+- Q: What is the final acceptance threshold for "Moderate" and "Low" vulnerabilities? → A: Zero Tolerance: Resolve all vulnerabilities regardless of severity.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Secure Dependency Management (Priority: P1)
@@ -45,10 +52,11 @@ As a developer, I want to resolve vulnerabilities with minimal disruption to the
 
 ### Functional Requirements
 
-- **FR-001**: System MUST identify all known vulnerabilities in the current package ecosystem.
+- **FR-001**: System MUST identify all known vulnerabilities in the current package ecosystem for a one-time resolution.
 - **FR-002**: System MUST resolve 100% of reported "High" and "Critical" vulnerabilities.
 - **FR-003**: System SHOULD resolve "Moderate" and "Low" vulnerabilities where non-breaking fixes are available.
 - **FR-004**: System MUST verify that the application still builds and functions correctly after applying dependency updates.
+- **FR-005**: The agent MUST perform the full end-to-end resolution of all identified vulnerabilities, including manual overrides if automatic tools fail.
 
 ### Key Entities *(include if feature involves data)*
 
@@ -59,7 +67,7 @@ As a developer, I want to resolve vulnerabilities with minimal disruption to the
 
 ### Measurable Outcomes
 
-- **SC-001**: Security audit report shows zero vulnerabilities of "High" or "Critical" severity.
+- **SC-001**: Security audit report shows zero vulnerabilities across ALL severity levels (Critical, High, Moderate, Low) upon final verification.
 - **SC-002**: 100% of automated tests pass after vulnerability resolution.
 - **SC-003**: The project build process completes successfully without errors related to package versioning.
 
