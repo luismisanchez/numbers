@@ -31,7 +31,7 @@ description: "Analysis-driven task list for Historical Backtesting & Monte Carlo
 - [ ] T006 Implement base `workers/simulator.worker.ts` with message protocol handlers per `contracts/worker-protocol.md`
 - [ ] T007 Create `lib/hooks/useSimulator.ts` to manage Web Worker lifecycle (instantiation, termination)
 - [ ] T008 [P] Implement `localStorage` service in `lib/services/persistenceService.ts` to store `SimulationResult`
-- [ ] T009 [US1] Create mandatory Disclaimer Modal (Principle IV) in `app/simulation-lab/components/DisclaimerModal.tsx` (Refinement G2)
+- [ ] T009 Create mandatory Disclaimer Modal (Principle IV) in `app/simulation-lab/components/DisclaimerModal.tsx` (Refinement G2)
 
 **Checkpoint**: Foundation ready - simulator engine, persistence, and compliance gate are functional.
 
