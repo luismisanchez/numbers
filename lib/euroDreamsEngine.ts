@@ -95,30 +95,35 @@ function countNeighborPairs(arr: number[]): number {
 
 // ─── Scoring rápido (para generación) ───────────────────────────
 
-function scoreCombo(arr: number[]): number {
+export function scoreCombo(arr: number[]): number {
   let score = 0;
 
   // 1. Suma (×1) — Ideal [110-136] → 2pts | Aceptable [100-145] → 1pt
-  const sum = arr.reduce((a, b) => a + b, 0);
+  const sum = arr[0] + arr[1] + arr[2] + arr[3] + arr[4] + arr[5];
   if (sum >= 110 && sum <= 136) score += 2 * RULE_WEIGHTS.sum;
   else if (sum >= 100 && sum <= 145) score += 1 * RULE_WEIGHTS.sum;
 
   // 2. Paridad (×2) — Ideal 3P/3I → 2pts | Aceptable 2/4 ó 4/2 → 1pt
-  const evens = arr.filter(n => n % 2 === 0).length;
+  let evens = 0;
+  for (let i = 0; i < 6; i++) if (arr[i] % 2 === 0) evens++;
   if (evens === 3) score += 2 * RULE_WEIGHTS.parity;
   else if (evens === 2 || evens === 4) score += 1 * RULE_WEIGHTS.parity;
 
   // 3. Décadas (×3) — Ideal [2-2-1-1] → 2pts | Aceptable → 1pt
   const decades = [0, 0, 0, 0];
-  arr.forEach(n => {
+  for (let i = 0; i < 6; i++) {
+    const n = arr[i];
     if (n <= 10) decades[0]++;
     else if (n <= 20) decades[1]++;
     else if (n <= 30) decades[2]++;
     else decades[3]++;
-  });
-  const decadePattern = decades.sort((a, b) => b - a).join('-');
-  if (decadePattern === '2-2-1-1') score += 2 * RULE_WEIGHTS.decades;
-  else if (decadePattern === '3-2-1-0' || decadePattern === '3-1-1-1' || decadePattern === '2-2-2-0') score += 1 * RULE_WEIGHTS.decades;
+  }
+  decades.sort((a, b) => b - a);
+  const d0 = decades[0], d1 = decades[1], d2 = decades[2], d3 = decades[3];
+  if (d0 === 2 && d1 === 2 && d2 === 1 && d3 === 1) score += 2 * RULE_WEIGHTS.decades;
+  else if ((d0 === 3 && d1 === 2 && d2 === 1 && d3 === 0) || 
+           (d0 === 3 && d1 === 1 && d2 === 1 && d3 === 1) || 
+           (d0 === 2 && d1 === 2 && d2 === 2 && d3 === 0)) score += 1 * RULE_WEIGHTS.decades;
 
   // 4. Consecutividad (×2) — Ideal 0 → 2pts | Aceptable 1 → 1pt
   let consecCount = 0;
@@ -129,30 +134,37 @@ function scoreCombo(arr: number[]): number {
   else if (consecCount === 1) score += 1 * RULE_WEIGHTS.consecutiveness;
 
   // 5. Terminaciones (×3) — Ideal 5 → 2pts | Aceptable 4 ó 6 → 1pt
-  const uniqueEndings = new Set(arr.map(n => n % 10)).size;
+  const endSet = new Set();
+  for (let i = 0; i < 6; i++) endSet.add(arr[i] % 10);
+  const uniqueEndings = endSet.size;
   if (uniqueEndings === 5) score += 2 * RULE_WEIGHTS.endings;
   else if (uniqueEndings === 4 || uniqueEndings === 6) score += 1 * RULE_WEIGHTS.endings;
 
   // 6. Columnas (×2) — Ideal [1-1-2-2] → 2pts | Aceptable → 1pt
-  const colCounts: Record<number, number> = {};
-  arr.forEach(n => {
-    const c = (n - 1) % 5 + 1;
-    colCounts[c] = (colCounts[c] || 0) + 1;
-  });
-  const colPattern = Object.values(colCounts).sort().join('-');
-  if (colPattern === '1-1-2-2') score += 2 * RULE_WEIGHTS.columns;
-  else if (colPattern === '1-2-3' || colPattern === '1-1-1-1-2') score += 1 * RULE_WEIGHTS.columns;
+  const colCounts = [0, 0, 0, 0, 0, 0]; // Index 1-5
+  for (let i = 0; i < 6; i++) colCounts[(arr[i] - 1) % 5 + 1]++;
+  const cols = colCounts.slice(1).filter(c => c > 0).sort((a, b) => a - b);
+  const clen = cols.length;
+  if (clen === 4 && cols[0] === 1 && cols[1] === 1 && cols[2] === 2 && cols[3] === 2) score += 2 * RULE_WEIGHTS.columns;
+  else if ((clen === 3 && cols[0] === 1 && cols[1] === 2 && cols[2] === 3) || 
+           (clen === 5 && cols[0] === 1 && cols[1] === 1 && cols[2] === 1 && cols[3] === 1 && cols[4] === 2)) score += 1 * RULE_WEIGHTS.columns;
 
   // 7. Filas (×3) — Ideal 5 → 2pts | Aceptable 4 ó 6 → 1pt
-  const uniqueRows = new Set(arr.map(n => Math.floor((n - 1) / 5) + 1)).size;
+  const rowSet = new Set();
+  for (let i = 0; i < 6; i++) rowSet.add(Math.floor((arr[i] - 1) / 5) + 1);
+  const uniqueRows = rowSet.size;
   if (uniqueRows === 5) score += 2 * RULE_WEIGHTS.rows;
   else if (uniqueRows === 4 || uniqueRows === 6) score += 1 * RULE_WEIGHTS.rows;
 
   // 8. Gaps (×3) — Ideal mean∈[5,10] & max≤15 → 2pts | Aceptable → 1pt
-  const gaps: number[] = [];
-  for (let j = 0; j < 5; j++) gaps.push(arr[j + 1] - arr[j]);
-  const meanGap = gaps.reduce((a, b) => a + b, 0) / 5;
-  const maxGap = Math.max(...gaps);
+  let totalGap = 0;
+  let maxGap = 0;
+  for (let j = 0; j < 5; j++) {
+    const gap = arr[j + 1] - arr[j];
+    totalGap += gap;
+    if (gap > maxGap) maxGap = gap;
+  }
+  const meanGap = totalGap / 5;
   if (meanGap >= 5 && meanGap <= 10 && maxGap <= 15) score += 2 * RULE_WEIGHTS.gaps;
   else if (meanGap >= 4 && meanGap <= 12 && maxGap <= 20) score += 1 * RULE_WEIGHTS.gaps;
 
@@ -162,6 +174,40 @@ function scoreCombo(arr: number[]): number {
   else if (neighborPairs === 3) score += 1 * RULE_WEIGHTS.neighbors;
 
   return score;
+}
+
+/**
+ * Cuenta cuántos números coinciden entre dos combinaciones.
+ */
+export function calculateHits(combo: number[], target: number[]): number {
+  let hits = 0;
+  for (let i = 0; i < combo.length; i++) {
+    if (target.includes(combo[i])) hits++;
+  }
+  return hits;
+}
+
+/**
+ * Puntuación masiva de combinaciones para alto rendimiento.
+ * Recibe un array plano [n1, n2, n3, n4, n5, n6, n1, ...] y devuelve Uint8Array de scores.
+ */
+export function scoreBulk(combos: Uint8Array | number[]): Uint8Array {
+  const count = combos.length / 6;
+  const results = new Uint8Array(count);
+  const temp = [0, 0, 0, 0, 0, 0];
+  
+  for (let i = 0; i < count; i++) {
+    const offset = i * 6;
+    temp[0] = combos[offset];
+    temp[1] = combos[offset + 1];
+    temp[2] = combos[offset + 2];
+    temp[3] = combos[offset + 3];
+    temp[4] = combos[offset + 4];
+    temp[5] = combos[offset + 5];
+    results[i] = scoreCombo(temp);
+  }
+  
+  return results;
 }
 
 // ─── Pesos adaptativos ──────────────────────────────────────────

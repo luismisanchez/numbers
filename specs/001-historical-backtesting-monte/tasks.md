@@ -16,9 +16,9 @@ description: "Analysis-driven task list for Historical Backtesting & Monte Carlo
 
 **Purpose**: Project initialization and structure
 
-- [ ] T001 Create project structure: `workers/`, `tests/unit/`, `tests/integration/`, `app/simulation-lab/components/`
-- [ ] T002 Install `vitest`, `@vitest/ui`, and `react-chartjs-2` + `chart.js` dependencies
-- [ ] T003 [P] Configure Vitest in `vitest.config.ts` for Next.js 16 and TypeScript support
+- [X] T001 Create project structure: `workers/`, `tests/unit/`, `tests/integration/`, `app/simulation-lab/components/`
+- [X] T002 Install `vitest`, `@vitest/ui`, and `react-chartjs-2` + `chart.js` dependencies
+- [X] T003 [P] Configure Vitest in `vitest.config.ts` for Next.js 16 and TypeScript support
 
 ---
 
@@ -26,12 +26,12 @@ description: "Analysis-driven task list for Historical Backtesting & Monte Carlo
 
 **Purpose**: Core logic and mandatory compliance (Principle IV)
 
-- [ ] T004 [P] Refactor `lib/euroDreamsEngine.ts` to export scoring logic and implement a high-performance bulk-scoring interface for `TypedArrays` (SC-001)
-- [ ] T005 [P] Implement date-filtering logic in `lib/historyService.ts` to support "Time Machine" views
-- [ ] T006 Implement base `workers/simulator.worker.ts` with message protocol handlers per `contracts/worker-protocol.md`
-- [ ] T007 Create `lib/hooks/useSimulator.ts` to manage Web Worker lifecycle (instantiation, termination)
-- [ ] T008 [P] Implement `localStorage` service in `lib/services/persistenceService.ts` to store `SimulationResult`
-- [ ] T009 Create mandatory Disclaimer Modal in `app/simulation-lab/components/DisclaimerModal.tsx` with strict adherence to Principle IV wording (Refinement G2)
+- [X] T004 [P] Refactor `lib/euroDreamsEngine.ts` to export scoring logic and implement a high-performance bulk-scoring interface for `TypedArrays` (SC-001)
+- [X] T005 [P] Implement date-filtering logic in `lib/historyService.ts` to support "Time Machine" views
+- [X] T006 Implement base `workers/simulator.worker.ts` with message protocol handlers per `contracts/worker-protocol.md`
+- [X] T007 Create `lib/hooks/useSimulator.ts` to manage Web Worker lifecycle (instantiation, termination)
+- [X] T008 [P] Implement `localStorage` service in `lib/services/persistenceService.ts` to store `SimulationResult`
+- [X] T009 Create mandatory Disclaimer Modal in `app/simulation-lab/components/DisclaimerModal.tsx` with strict adherence to Principle IV wording (Refinement G2)
 
 **Checkpoint**: Foundation ready - simulator engine, persistence, and compliance gate are functional.
 
@@ -45,17 +45,17 @@ description: "Analysis-driven task list for Historical Backtesting & Monte Carlo
 
 ### Tests for User Story 1
 
-- [ ] T010 [P] [US1] Unit test for date-filtered weight calibration in `tests/unit/engine.test.ts`
-- [ ] T011 [P] [US1] Unit test for 1M+ combination scoring performance in `tests/unit/engine.test.ts`
+- [X] T010 [P] [US1] Unit test for date-filtered weight calibration in `tests/unit/engine.test.ts`
+- [X] T011 [P] [US1] Unit test for 1M+ combination scoring performance in `tests/unit/engine.test.ts`
 
 ### Implementation for User Story 1
 
-- [ ] T012 [P] [US1] Implement "Time Machine" calibration and sampling logic in `workers/simulator.worker.ts`
-- [ ] T013 [US1] Create `app/simulation-lab/page.tsx` with date picker and backtest trigger
-- [ ] T014 [US1] Implement distribution histogram component in `app/simulation-lab/components/DistributionChart.tsx` using Chart.js
-- [ ] T015 [US1] Implement "Realistic Zone" shaded background (scores 25-35) in `DistributionChart.tsx` (Refinement G1)
-- [ ] T016 [US1] Add "Winner Highlight" logic to the chart to show the actual draw result's percentile
-- [ ] T017 [US1] Add "Insufficient Data" warning (<50 draws) in `app/simulation-lab/page.tsx` (Edge Case)
+- [X] T012 [P] [US1] Implement "Time Machine" calibration and sampling logic in `workers/simulator.worker.ts`
+- [X] T013 [US1] Create `app/simulation-lab/page.tsx` with date picker and backtest trigger
+- [X] T014 [US1] Implement distribution histogram component in `app/simulation-lab/components/DistributionChart.tsx` using Chart.js
+- [X] T015 [US1] Implement "Realistic Zone" shaded background (scores 25-35) in `DistributionChart.tsx` (Refinement G1)
+- [X] T016 [US1] Add "Winner Highlight" logic to the chart to show the actual draw result's percentile
+- [X] T017 [US1] Add "Insufficient Data" warning (<50 draws) in `app/simulation-lab/page.tsx` (Edge Case)
 
 **Checkpoint**: User Story 1 is fully functional - backtesting with visual "Realistic Zone" works independently.
 
@@ -69,15 +69,15 @@ description: "Analysis-driven task list for Historical Backtesting & Monte Carlo
 
 ### Tests for User Story 2
 
-- [ ] T018 [P] [US2] Unit test for weighted combination generator in `tests/unit/engine.test.ts`
-- [ ] T019 [P] [US2] Integration test for "Hybrid" simulation logic in `tests/integration/simulation.test.ts`
+- [X] T018 [P] [US2] Unit test for weighted combination generator in `tests/unit/engine.test.ts`
+- [X] T019 [P] [US2] Integration test for "Hybrid" simulation logic in `tests/integration/simulation.test.ts`
 
 ### Implementation for User Story 2
 
-- [ ] T020 [P] [US2] Implement "Hybrid" simulation logic (Random vs Weighted) in `workers/simulator.worker.ts`
-- [ ] T021 [US2] Add Simulation Controls (Sample Size, Logic Type) to `app/simulation-lab/page.tsx`
-- [ ] T022 [US2] Update `app/simulation-lab/components/DistributionChart.tsx` to support multiple datasets
-- [ ] T023 [US2] Implement Progress Bar in `app/simulation-lab/page.tsx` using `SIMULATION_PROGRESS` worker messages
+- [X] T020 [P] [US2] Implement "Hybrid" simulation logic (Random vs Weighted) in `workers/simulator.worker.ts`
+- [X] T021 [US2] Add Simulation Controls (Sample Size, Logic Type) to `app/simulation-lab/page.tsx`
+- [X] T022 [US2] Update `app/simulation-lab/components/DistributionChart.tsx` to support multiple datasets
+- [X] T023 [US2] Implement Progress Bar in `app/simulation-lab/page.tsx` using `SIMULATION_PROGRESS` worker messages
 
 **Checkpoint**: User Story 2 is functional - users can run Monte Carlo simulations.
 
@@ -91,9 +91,9 @@ description: "Analysis-driven task list for Historical Backtesting & Monte Carlo
 
 ### Implementation for User Story 3
 
-- [ ] T024 [P] [US3] Implement digit matching logic (0-6 hits) in `workers/simulator.worker.ts`
-- [ ] T025 [US3] Create `app/simulation-lab/components/ProximityAnalysis.tsx` to display hit counts and top combinations
-- [ ] T026 [US3] Integrate ProximityAnalysis into `app/simulation-lab/page.tsx` post-simulation
+- [X] T024 [P] [US3] Implement digit matching logic (0-6 hits) in `workers/simulator.worker.ts`
+- [X] T025 [US3] Create `app/simulation-lab/components/ProximityAnalysis.tsx` to display hit counts and top combinations
+- [X] T026 [US3] Integrate ProximityAnalysis into `app/simulation-lab/page.tsx` post-simulation
 
 **Checkpoint**: All user stories are functional.
 
@@ -101,11 +101,11 @@ description: "Analysis-driven task list for Historical Backtesting & Monte Carlo
 
 ## Phase 6: Polish & Cross-Cutting Concerns
 
-- [ ] T027 [P] Implement simulation history sidebar using `localStorage` (FR-008)
-- [ ] T028 [P] Add Web Worker error handling (Edge Case) with toast notifications
-- [ ] T029 Performance optimization: Ensure 3.8M combination backtest uses TypedArrays for memory efficiency
-- [ ] T030 Manual validation: Verify "Realistic Zone" overlay precisely matches axis labels for 25 and 35 (Refinement A1)
-- [ ] T031 Run `analyze_history.js` and update weights if backtesting reveals calibration drift (Principle V)
+- [X] T027 [P] Implement simulation history sidebar using `localStorage` (FR-008)
+- [X] T028 [P] Add Web Worker error handling (Edge Case) with toast notifications
+- [X] T029 Performance optimization: Ensure 3.8M combination backtest uses TypedArrays for memory efficiency
+- [X] T030 Manual validation: Verify "Realistic Zone" overlay precisely matches axis labels for 25 and 35 (Refinement A1)
+- [X] T031 Run `analyze_history.js` and update weights if backtesting reveals calibration drift (Principle V)
 
 ---
 

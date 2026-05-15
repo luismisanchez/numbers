@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useMemo } from 'react';
-import { Sparkles, Trophy, CheckCircle2, XCircle, Loader2, BarChart3, Crosshair, MinusCircle, AlertTriangle } from 'lucide-react';
+import Link from 'next/link';
+import { Sparkles, Trophy, CheckCircle2, XCircle, Loader2, BarChart3, Crosshair, MinusCircle, AlertTriangle, Beaker } from 'lucide-react';
 import { useEuroDreams } from '../lib/useEuroDreams';
 import { useHistory } from '../lib/useHistory';
 import { MAX_WEIGHTED_SCORE, type HistoricalInput, type RuleScore } from '../lib/euroDreamsEngine';
@@ -140,6 +141,16 @@ export default function App() {
               📊 {history.totalDraws} sorteos cargados · Último: {history.lastUpdate}
             </p>
           )}
+
+          <div className="flex justify-center pt-2">
+            <Link 
+              href="/simulation-lab"
+              className="inline-flex items-center gap-2 px-6 py-2.5 bg-indigo-500/10 border border-indigo-500/30 rounded-2xl text-indigo-400 hover:bg-indigo-500/20 transition-all font-black text-sm uppercase tracking-widest group"
+            >
+              <Beaker className="w-4 h-4 group-hover:animate-bounce" />
+              Acceder al Simulation Lab
+            </Link>
+          </div>
           {historyLoading && (
             <p className="text-slate-600 text-sm animate-pulse">Cargando datos históricos...</p>
           )}
