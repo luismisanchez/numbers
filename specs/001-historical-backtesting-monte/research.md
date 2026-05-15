@@ -15,7 +15,7 @@ This document outlines the technical decisions and research findings for the "Si
   - **Playwright (Component Testing)**: Good but slower for pure logic/math tests.
 
 ### 2. Computation: Web Workers (new URL pattern)
-- **Decision**: Use standard **Browser Web Workers** instantiated via `new URL('../workers/simulator.worker.ts', import.meta.url)`.
+- **Decision**: Use standard **Browser Web Workers** instantiated via `new URL('../workers/simulator.worker.ts', import.meta.url)` with `{ type: 'module' }`.
 - **Rationale**: 
   - Monte Carlo simulations (10,000 runs) and Backtests (3.8M combination scoring) are CPU-bound and will block the main thread.
   - Next.js (Webpack/Turbopack) natively supports this pattern for automatic bundling.
@@ -36,13 +36,13 @@ This document outlines the technical decisions and research findings for the "Si
 - **Decision**: Use **Chart.js** (React-chartjs-2) for rendering the distribution histograms.
 - **Rationale**: 
   - Uses HTML5 Canvas, which is much more performant than SVG-based libraries (like Recharts) when handling thousands of data points or complex bell curves.
-  - Built-in support for multiple datasets (Random vs. Engine vs. Historical).
+  - Supports "Shaded Area" overlays for the Realistic Zone via custom plugins or datasets.
 - **Alternatives considered**: 
   - **Recharts (SVG)**: Easier to style but performance degrades with large histograms.
   - **Custom CSS Bars**: Hard to maintain for overlapping distributions.
 
 ## Implementation Details
 
-- **Worker Strategy**: The worker will receive the historical data and engine weights, then return the scoring distribution.
-- **Backtest Optimization**: For the 3.8M combination backtest, the worker will process in chunks or use a large `Float32Array` for performance.
-- **Disclaimer**: The disclaimer (Principle IV) will be visible as a "Quality Gate" overlay before starting any simulation.
+- **Worker Strategy**: The worker will receive the historical data and engine weights, then return the scoring distribution (pre-binned).
+- **Backtest Optimization**: For the 3.8M combination backtest, the worker will use `Float32Array` or `Uint16Array` for memory efficiency.
+- **Disclaimer**: The disclaimer (Principle IV) will be visible as a "Quality Gate" modal before starting any simulation.

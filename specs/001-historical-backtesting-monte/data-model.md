@@ -22,7 +22,7 @@ The output of a Monte Carlo run, persisted in `localStorage`.
 | `id` | `string` | Unique identifier (UUID). |
 | `timestamp` | `number` | When the simulation was run. |
 | `type` | `"hybrid" \| "random" \| "weighted"` | Type of generation logic used. |
-| `distribution` | `Map<number, number>` | Score -> Frequency (used for histogram). |
+| `distribution` | `Record<number, number>` | Score -> Frequency (pre-binned for histogram). |
 | `summary` | `object` | Mean, standard deviation, and "Realistic Zone" % coverage. |
 | `config` | `BacktestConfig \| null` | Backtest settings if applicable. |
 

@@ -13,6 +13,9 @@
 - Q: How to handle <50 draws for backtest? → A: Block & Warn with a "Not enough data" message (Principle I).
 - Q: Should simulation results be persisted? → A: Local Storage for the last 5-10 runs for comparison.
 - Q: Backtest depth? → A: Full distribution (3.8M combinations) to show winner's position in the bell curve.
+- Q: Visual requirement for "Prominent Disclaimer"? → A: Modal/Overlay that MUST be acknowledged before any simulation logic executes (Principle IV).
+- Q: Visualization of the "Realistic Zone" overlay? → A: Shaded background area behind the chart bars between scores 25-35.
+- Q: How to validate SC-003 "100% accuracy"? → A: Visual boundary check (verify shaded region starts at 25 and ends at 35 on the score axis).
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -73,8 +76,7 @@ As a user, I want to see how many "near misses" the engine would have produced i
 - **FR-002**: Engine MUST be able to re-calculate weights (x3, x2, x1) dynamically based on the filtered dataset.
 - **FR-003**: System MUST execute Monte Carlo simulations using a Web Worker to avoid blocking the main UI thread.
 - **FR-004**: System MUST display a comparison chart (histogram) using a library like Chart.js or similar (or stylized CSS).
-- **FR-005**: System MUST display the mandatory disclaimer (Principle IV) prominently during the simulation process.
-- **FR-006 (Constitution)**: System MUST display the mandatory disclaimer regarding randomness and responsible gaming (Principle IV).
+- **FR-005 (Constitution)**: System MUST display a mandatory disclaimer modal regarding randomness and responsible gaming (Principle IV) that users MUST acknowledge before starting any simulation or backtest.
 - **FR-007**: System MUST implement a dedicated "Simulation Lab" tab/view to house these advanced tools.
 - **FR-008**: System MUST persist the last 10 simulation results in `localStorage` for cross-session comparison.
 
@@ -89,7 +91,7 @@ As a user, I want to see how many "near misses" the engine would have produced i
 
 - **SC-001**: Backtest calculation for 200+ historical draws completes in under 2 seconds.
 - **SC-002**: Monte Carlo simulation of 10,000 draws finishes in under 5 seconds.
-- **SC-003**: UI displays the "Realistic Zone" overlay on the simulation chart with 100% accuracy.
+- **SC-003**: UI displays the "Realistic Zone" overlay (shaded background area between scores 25-35) with visual boundary accuracy (verified against axis labels).
 
 ## Assumptions
 

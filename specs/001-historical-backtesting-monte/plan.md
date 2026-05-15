@@ -26,7 +26,7 @@ Implement a "Simulation Lab" for the EuroDreams Statistical Generator. This feat
 - [x] **Statistical Foundation**: Does this change adhere to LLN, CLT, or Regression to the Mean? (Principle I) -> YES, uses Monte Carlo to validate CLT.
 - [x] **Historical Alignment**: Are weights calibrated against empirical historical frequency? (Principle II) -> YES, feature re-calibrates weights for backtests.
 - [x] **Realistic Zone**: Does this avoid overfitting by targeting the 25-35 point range? (Principle III) -> YES, validates this range via simulation.
-- [x] **Responsible Disclosure**: Does this change maintain or enhance the mandatory disclaimer? (Principle IV) -> YES, FR-005/FR-006 explicitly require disclaimers.
+- [x] **Responsible Disclosure**: Does this change maintain or enhance the mandatory disclaimer? (Principle IV) -> YES, FR-005 explicitly requires disclaimers.
 - [x] **Validation Protocol**: Is there a plan to run `analyze_history.js` to verify the impact? (Principle V) -> YES, T017 in spec.
 
 ## Project Structure
@@ -36,9 +36,9 @@ Implement a "Simulation Lab" for the EuroDreams Statistical Generator. This feat
 ```text
 specs/001-historical-backtesting-monte/
 ├── plan.md              # This file
-├── research.md          # Research findings (Vitest, Workers, Chart.js)
-├── data-model.md        # Entities (SimulationResult, BacktestConfig)
-├── quickstart.md        # User guide
+├── research.md          # Vitest, Web Workers, Chart.js optimizations
+├── data-model.md        # SimulationResult, BacktestConfig
+├── quickstart.md        # User scenarios
 ├── contracts/           
 │   └── worker-protocol.md # Main <-> Worker message schema
 └── tasks.md             # Implementation tasks
@@ -48,32 +48,34 @@ specs/001-historical-backtesting-monte/
 
 ```text
 app/
-├── (existing components)
-└── simulation-lab/      # New feature directory
-    ├── page.tsx         # Dedicated Lab tab
-    └── components/      # Lab-specific UI (Charts, Controls)
+├── simulation-lab/      # New feature directory
+│   ├── page.tsx         # Dashboard Tab
+│   └── components/
+│       ├── DistributionChart.tsx
+│       ├── SimulationControls.tsx
+│       └── ProximityAnalysis.tsx
 
 lib/
-├── euroDreamsEngine.ts  # Export scoring logic for worker use
-├── historyService.ts    # Add date filtering
-└── hooks/
-    └── useSimulator.ts  # Hook to manage worker lifecycle
+├── euroDreamsEngine.ts  # Exported logic for worker
+├── historyService.ts    # Date filtering support
+├── hooks/
+│   └── useSimulator.ts  # Worker lifecycle hook
+└── services/
+    └── persistenceService.ts # localStorage wrapper
 
 workers/                 # New directory
-└── simulator.worker.ts  # Heavy lifting (Math/Stats)
+└── simulator.worker.ts  # Heavy computations
 
 tests/                   # New directory
 ├── unit/
-│   └── engine.test.ts   # Vitest unit tests
+│   └── engine.test.ts   # Statistical logic tests
 └── integration/
     └── simulation.test.ts
 ```
 
-**Structure Decision**: Standard Next.js structure with a dedicated `workers/` folder for clarity and a `simulation-lab/` route group/folder.
+**Structure Decision**: A dedicated `simulation-lab` route group in `app/` and a top-level `workers/` directory for bundled scripts. Logic is shared via `lib/`.
 
 ## Complexity Tracking
-
-> **Fill ONLY if Constitution Check has violations that must be justified**
 
 | Violation | Why Needed | Simpler Alternative Rejected Because |
 |-----------|------------|-------------------------------------|
