@@ -26,12 +26,12 @@ description: "Analysis-driven task list for Historical Backtesting & Monte Carlo
 
 **Purpose**: Core logic and mandatory compliance (Principle IV)
 
-- [ ] T004 [P] Refactor `lib/euroDreamsEngine.ts` to export scoring logic for use in Web Workers
+- [ ] T004 [P] Refactor `lib/euroDreamsEngine.ts` to export scoring logic and implement a high-performance bulk-scoring interface for `TypedArrays` (SC-001)
 - [ ] T005 [P] Implement date-filtering logic in `lib/historyService.ts` to support "Time Machine" views
 - [ ] T006 Implement base `workers/simulator.worker.ts` with message protocol handlers per `contracts/worker-protocol.md`
 - [ ] T007 Create `lib/hooks/useSimulator.ts` to manage Web Worker lifecycle (instantiation, termination)
 - [ ] T008 [P] Implement `localStorage` service in `lib/services/persistenceService.ts` to store `SimulationResult`
-- [ ] T009 Create mandatory Disclaimer Modal (Principle IV) in `app/simulation-lab/components/DisclaimerModal.tsx` (Refinement G2)
+- [ ] T009 Create mandatory Disclaimer Modal in `app/simulation-lab/components/DisclaimerModal.tsx` with strict adherence to Principle IV wording (Refinement G2)
 
 **Checkpoint**: Foundation ready - simulator engine, persistence, and compliance gate are functional.
 
